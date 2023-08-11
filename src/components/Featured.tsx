@@ -195,7 +195,7 @@ const featuredProducts = [
 
 const Featured = () => {
   return (
-    <div className="w-full overflow-x-scroll text-red-500">
+    <div className="w-full overflow-x-auto text-red-500">
       {/* WRAPPER */}
       <div className="w-max flex">
         {/* SINGLE ITEM */}
