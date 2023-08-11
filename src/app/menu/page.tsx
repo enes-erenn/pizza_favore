@@ -1,37 +1,24 @@
 import React from "react";
 import Link from "next/link";
+import { Menu } from "../types/types";
 
-const menu = [
-  {
-    id: 1,
-    slug: "pastas",
-    title: "Italian Pastas",
-    desc: "Savor the taste of perfection with our exquisite Italian handmade pasta menu.",
-    img: "/temporary/m1.png",
-    color: "white",
-  },
-  {
-    id: 2,
-    slug: "burgers",
-    title: "Juicy Burgers",
-    desc: "Burger Bliss: Juicy patties, bold flavors, and gourmet toppings galore.",
-    img: "/temporary/m2.png",
-    color: "black",
-  },
-  {
-    id: 3,
-    slug: "pizzas",
-    title: "Cheesy Pizzas",
-    desc: "Pizza Paradise: Irresistible slices, mouthwatering toppings, and cheesy perfection.",
-    img: "/temporary/m3.png",
-    color: "white",
-  },
-];
+const getData = async () => {
+  const res = await fetch("http://localhost:3000/api/categories", {
+    cache: "no-store",
+  });
 
-const MenuPage = () => {
+  if (!res.ok) {
+    throw new Error("Fail!");
+  }
+
+  return res.json();
+};
+
+const MenuPage = async () => {
+  const data: Menu = await getData();
   return (
     <div className="p-4 lg:px-20 xl:px-40 h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col md:flex-row items-center">
-      {menu.map((cat) => (
+      {data.map((cat) => (
         <Link
           key={cat.id}
           href={`/menu/${cat.slug}`}
