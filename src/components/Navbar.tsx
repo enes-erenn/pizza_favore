@@ -5,10 +5,11 @@ import Menu from "./Menu";
 import Links from "./Links";
 import Image from "next/image";
 import CartIcon from "./CartIcon";
+import UserLinks from "./UserLinks";
 
 const Navbar = () => {
-  const user = false;
   const [open, setOpen] = useState(false);
+
   const handleChange = () => {
     setOpen((bool) => !bool);
   };
@@ -24,7 +25,7 @@ const Navbar = () => {
       </div>
       {/* MOBILE MENU */}
       <div className="md:hidden">
-        <Menu user={user} open={open} handleChange={handleChange} />
+        <Menu open={open} handleChange={handleChange} />
       </div>
       {/* RIGHT LINKS */}
       <div className="hidden md:flex gap-4 items-center justify-end flex-1">
@@ -32,11 +33,7 @@ const Navbar = () => {
           <Image src="/phone.png" alt="" width={20} height={20} />
           <span>123 456 78</span>
         </div>
-        {!user ? (
-          <Link href="/login">Login</Link>
-        ) : (
-          <Link href="/orders">Orders</Link>
-        )}
+        <UserLinks />
         <CartIcon handleChange={handleChange} />
       </div>
     </div>

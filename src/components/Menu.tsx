@@ -1,15 +1,14 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
 import Links from "./Links";
+import UserLinks from "./UserLinks";
 
 type Props = {
   open: boolean;
-  user: any;
   handleChange: () => void;
 };
 
-const Menu = ({ open, handleChange, user }: Props) => {
+const Menu = ({ open, handleChange }: Props) => {
   return (
     <div>
       <Image
@@ -23,10 +22,7 @@ const Menu = ({ open, handleChange, user }: Props) => {
       {open && (
         <div className="bg-red-500 text-white absolute left-0 top-24 w-full h-[calc(100vh-6rem)] flex items-center justify-center text-3xl flex-col gap-8 z-10">
           <Links handleChange={handleChange} />
-
-          <Link href={user ? "/orders" : "login"} onClick={handleChange}>
-            {user ? "Orders" : "Login"}
-          </Link>
+          <UserLinks />
         </div>
       )}
     </div>
