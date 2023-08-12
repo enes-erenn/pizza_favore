@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import { CartProduct } from "@/types/types";
 import { useGetCartTotal } from "@/hooks/useGetCartTotal";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const CartPage = () => {
   const data = useSelector((state: any) => state.cart);
@@ -11,10 +13,34 @@ const CartPage = () => {
   const serviceCost = 0;
   const cartTotal = useGetCartTotal();
   const [total, setTotal] = useState(0);
+  const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
     setTotal(+cartTotal + +deliveryCost + +serviceCost);
   }, [cartTotal, deliveryCost, serviceCost]);
+
+  const handleCheckout = async () => {
+    if (!session) {
+      return router.push("/");
+    }
+    try {
+      const res = await fetch("http://localhost:3000/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          price: total,
+          products: data,
+          status: "Not Paid!",
+          userEmail: session.user.email,
+        }),
+      });
+      const response = await res.json();
+      router.push(`/pay/${response.id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col text-red-500 lg:flex-row">
       {/* PRODUCTS CONTAINER */}
@@ -61,6 +87,7 @@ const CartPage = () => {
           <span className="font-bold">${total.toFixed(2)}</span>
         </div>
         <button
+          onClick={handleCheckout}
           disabled={data.length === 0}
           className="bg-red-500 text-white p-3 rounded-md w-1/2 self-end disabled:bg-gray-600 disabled:opacity-60"
         >
