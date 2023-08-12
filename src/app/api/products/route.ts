@@ -1,9 +1,11 @@
+import { getAuthSession } from "@/utils/auth";
 import { prisma } from "@/utils/connectPrisma";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   const { searchParams } = new URL(req.url);
   const cat = searchParams.get("cat");
+
   try {
     // If there is a specified category then filters the products, otherwise returns featured products
     const products = await prisma.product.findMany({

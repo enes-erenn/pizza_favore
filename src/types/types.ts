@@ -19,3 +19,13 @@ export type Product = {
 };
 
 export type Products = Product[];
+
+export type Order = {
+  id: string;
+  createdAt: Date;
+  price: number;
+  products: Products;
+  status: string;
+  intent_id: string;
+  userEmail: string;
+};
