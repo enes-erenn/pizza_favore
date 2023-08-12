@@ -31,11 +31,7 @@ const SingleProductPage = async ({ params }: { params: { id: string } }) => {
           {data[0].title}
         </h1>
         <p>{data[0].desc}</p>
-        <Price
-          price={data[0].price}
-          id={data[0].id}
-          options={data[0].options}
-        />
+        <Price item={data[0]} />
       </div>
     </div>
   );

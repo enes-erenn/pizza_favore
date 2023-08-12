@@ -1,13 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import AddToCartButton from "./AddToCartButton";
+import { Product } from "@/types/types";
 
 type Props = {
-  price: number;
-  id: number;
-  options?: { title: string; additionalPrice: number }[];
+  item: Product;
 };
 
-const Price = ({ price, id, options }: Props) => {
+const Price = ({ item }: Props) => {
+  const { price, options, catSlug, id, title, desc, img } = item;
   const [total, setTotal] = useState(price);
   const [quantity, setQuantity] = useState(1);
   const [selected, setSelected] = useState(0);
@@ -57,11 +58,19 @@ const Price = ({ price, id, options }: Props) => {
             <button onClick={handleIncrease}>{">"}</button>
           </div>
         </div>
-        {/* CART BUTTON */}
-        <button className="uppercase w-56 bg-red-500 text-white p-3 ring-1 ring-red-500">
-          Add to Cart
-        </button>
       </div>
+      <AddToCartButton
+        item={{
+          id,
+          title,
+          desc,
+          img,
+          price,
+          catSlug,
+          options: options![selected] as any,
+          quantity,
+        }}
+      />
     </div>
   );
 };

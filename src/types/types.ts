@@ -15,6 +15,7 @@ export type Product = {
   desc?: string;
   img?: string;
   price: number;
+  catSlug: string;
   options?: { title: string; additionalPrice: number }[];
 };
 
@@ -29,3 +30,7 @@ export type Order = {
   intent_id: string;
   userEmail: string;
 };
+
+export interface CartProduct extends Product {
+  quantity?: number;
+}
